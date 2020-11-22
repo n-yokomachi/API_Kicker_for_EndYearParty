@@ -5,16 +5,13 @@ function App() {
   const [toNumber, setToNumber] = useState("");
 
   const kickLottery = () => {
-    console.log(`Flow ID: ${flowId}  To Number: ${toNumber}`);
+    console.log(`SID:${process.env.REACT_APP_TWILIO_ACCOUNT_SID} AUTH-TOKEN${process.env.REACT_APP_TWILIO_AUTH_TOKEN}`);
+    console.log(`FlowID:${flowId}  ToNumber:${toNumber} FromNumber:${process.env.REACT_APP_TWILIO_FROM_NUMBER}`);
 
     if (!flowId || !toNumber) {
       alert("未入力の項目があります。");
       return;
     }
-
-    console.log(process.env.REACT_APP_TWILIO_ACCOUNT_SID);
-    console.log(process.env.REACT_APP_TWILIO_AUTH_TOKEN);
-    console.log(process.env.REACT_APP_TWILIO_FROM_NUMBER)
 
     const client = require('twilio')(
       process.env.REACT_APP_TWILIO_ACCOUNT_SID,
@@ -70,7 +67,7 @@ function App() {
 
         <form method="POST" className="form" name='lottery'>
           <p>Flow ID<br />
-            <input type="text" name="flowId" style={{ width: "400px" }} value={flowId} onChange={(event) => setFlowId(event.target.value)} />
+            <input type="text" name="flowId" style={{ width: "300px" }} value={flowId} onChange={(event) => setFlowId(event.target.value)} />
           </p>
           <p>To Number (E.164)<br />
             <input type="text" name="toNumber" value={toNumber} onChange={(event) => setToNumber(event.target.value)} />

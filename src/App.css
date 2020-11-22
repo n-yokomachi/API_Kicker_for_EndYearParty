@@ -185,12 +185,12 @@ section h2 {
     font-size: 22px;
     font-weight: normal;
     text-align: center;
+    background: url(/src/images/borderBlack.png) repeat-x 0 50%;
     background-size: 1px 1px;
 }
 
 section h2 span {
     background: #fff;
-    padding: 0 80px;
 }
 
 .inner {
@@ -200,7 +200,7 @@ section h2 span {
 }
 
 .innerS {
-    width: 60%;
+    width: 85%;
     margin: 0 auto;
     padding-bottom: 20px;
     text-align: center;
