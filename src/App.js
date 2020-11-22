@@ -12,15 +12,19 @@ function App() {
       return;
     }
 
+    console.log(process.env.REACT_APP_TWILIO_ACCOUNT_SID);
+    console.log(process.env.REACT_APP_TWILIO_AUTH_TOKEN);
+    console.log(process.env.REACT_APP_TWILIO_FROM_NUMBER)
+
     const client = require('twilio')(
-      "ACaf140c46abb18e81b236fc6075d20a38",
-      "9dae5193668d97336963113c155ae93a"
+      process.env.REACT_APP_TWILIO_ACCOUNT_SID,
+      process.env.REACT_APP_TWILIO_AUTH_TOKEN
     )
 
     try {
       client.studio.flows(flowId)
         .executions.create({
-          from: "+815032050953",
+          from: process.env.REACT_APP_TWILIO_FROM_NUMBER,
           to: toNumber
         })
         .then(flow => {
