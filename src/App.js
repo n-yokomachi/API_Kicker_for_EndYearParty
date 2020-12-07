@@ -1,17 +1,11 @@
 import React, { useState } from "react";
 
 function App() {
-  const [flowId, setFlowId] = useState("");
-  const [toNumber, setToNumber] = useState("");
 
   const kickLottery = () => {
-    console.log(`SID:${process.env.REACT_APP_TWILIO_ACCOUNT_SID} AUTH-TOKEN${process.env.REACT_APP_TWILIO_AUTH_TOKEN}`);
-    console.log(`FlowID:${flowId}  ToNumber:${toNumber} FromNumber:${process.env.REACT_APP_TWILIO_FROM_NUMBER}`);
+    console.log(`SID:${process.env.REACT_APP_TWILIO_ACCOUNT_SID} AUTH-TOKEN:${process.env.REACT_APP_TWILIO_AUTH_TOKEN}`);
+    console.log(`FlowID:${process.env.REACT_APP_TWILIO_FLOW_ID}  ToNumber:${process.env.REACT_APP_TWILIO_TO_NUMBER} FromNumber:${process.env.REACT_APP_TWILIO_FROM_NUMBER}`);
 
-    if (!flowId || !toNumber) {
-      alert("未入力の項目があります。");
-      return;
-    }
 
     const client = require('twilio')(
       process.env.REACT_APP_TWILIO_ACCOUNT_SID,
@@ -19,10 +13,10 @@ function App() {
     )
 
     try {
-      client.studio.flows(flowId)
+      client.studio.flows(process.env.REACT_APP_TWILIO_FLOW_ID)
         .executions.create({
           from: process.env.REACT_APP_TWILIO_FROM_NUMBER,
-          to: toNumber
+          to: process.env.REACT_APP_TWILIO_TO_NUMBER
         })
         .then(flow => {
           console.log(flow)
@@ -60,18 +54,16 @@ function App() {
           <h2><span>Description</span></h2>
         </header>
         <div className="innerS">
-          抽選を開始する場合は下のボタンを押してください<br />
-          ※現在テストのため、フォームから任意のフローをキックできるようにしています。<br />
-          本番ではキックするフローは固定にし、フォームは削除します。
+          抽選を開始する場合は下のボタンを押してください
         </div>
 
         <form method="POST" className="form" name='lottery'>
-          <p>Flow ID<br />
+          {/* <p>Flow ID<br />
             <input type="text" name="flowId" style={{ width: "300px" }} value={flowId} onChange={(event) => setFlowId(event.target.value)} />
           </p>
           <p>To Number (E.164)<br />
             <input type="text" name="toNumber" value={toNumber} onChange={(event) => setToNumber(event.target.value)} />
-          </p>
+          </p> */}
 
           <div className="innerS">
             <label className="button" onClick={() => {
