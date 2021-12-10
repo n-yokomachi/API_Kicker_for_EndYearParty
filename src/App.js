@@ -3,25 +3,31 @@ import axios from "axios";
 import https from "https";
 
 function App() {
+  const [isTest, setIsTest] = useState(false);
 
   const kickLottery = () => {
     console.log(process.env.REACT_APP_API_URL);
 
-    const httpsAgent = new https.Agent({
-      rejectUnauthorized: false,
-    });
-    axios.post(process.env.REACT_APP_API_URL, { httpsAgent: httpsAgent })
-      .then(res => {
-        alert("リクエストが送信されました");
-        console.log(res);
-      })
-      .catch(err => {
-        alert("エラーが発生しました");
-        console.log(err);
-      })
+    if (isTest) {
+      alert("リクエスト先URL：" + process.env.REACT_APP_API_URL);
+    } else {
+      const httpsAgent = new https.Agent({
+        rejectUnauthorized: false,
+      });
+      axios.post(process.env.REACT_APP_API_URL, { httpsAgent: httpsAgent })
+        .then(res => {
+          alert("リクエストが送信されました");
+          console.log(res);
+        })
+        .catch(err => {
+          alert("エラーが発生しました");
+          console.log(err);
+        })
+    }
+
+
 
   }
-
 
   return (
     <React.Fragment>
@@ -33,7 +39,7 @@ function App() {
             </p>
             <div className="panel">
               <ul>
-                <li>Lottery Kicker</li>
+                <li>Chosen APP</li>
               </ul>
             </div>
           </nav>
@@ -42,8 +48,9 @@ function App() {
 
       <section id="sec01">
         <header>
-          <h2><span>Description</span></h2>
+          <h2><span>How to use</span></h2>
         </header>
+
         <div className="innerS">
           抽選を開始する場合は下のボタンを押してください
         </div>
@@ -66,6 +73,11 @@ function App() {
 
           </div>
         </form>
+
+        <div className="innerS">
+          <input id="isTest" type="checkbox" name="isTest" checked={isTest} onChange={(event) => setIsTest(event.target.checked)} />
+          テスト
+        </div>
 
       </section>
 
