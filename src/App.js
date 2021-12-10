@@ -1,34 +1,25 @@
 import React, { useState } from "react";
+import axios from "axios";
+import https from "https";
 
 function App() {
 
   const kickLottery = () => {
-    console.log(`SID:${process.env.REACT_APP_TWILIO_ACCOUNT_SID} AUTH-TOKEN:${process.env.REACT_APP_TWILIO_AUTH_TOKEN}`);
-    console.log(`FlowID:${process.env.REACT_APP_TWILIO_FLOW_ID}  ToNumber:${process.env.REACT_APP_TWILIO_TO_NUMBER} FromNumber:${process.env.REACT_APP_TWILIO_FROM_NUMBER}`);
+    console.log(process.env.REACT_APP_API_URL);
 
+    const httpsAgent = new https.Agent({
+      rejectUnauthorized: false,
+    });
+    axios.post(process.env.REACT_APP_API_URL, { httpsAgent: httpsAgent })
+      .then(res => {
+        alert("リクエストが送信されました");
+        console.log(res);
+      })
+      .catch(err => {
+        alert("エラーが発生しました");
+        console.log(err);
+      })
 
-    const client = require('twilio')(
-      process.env.REACT_APP_TWILIO_ACCOUNT_SID,
-      process.env.REACT_APP_TWILIO_AUTH_TOKEN
-    )
-
-    try {
-      client.studio.flows(process.env.REACT_APP_TWILIO_FLOW_ID)
-        .executions.create({
-          from: process.env.REACT_APP_TWILIO_FROM_NUMBER,
-          to: process.env.REACT_APP_TWILIO_TO_NUMBER
-        })
-        .then(flow => {
-          console.log(flow)
-          alert("リクエストが送信されました")
-        })
-        .catch(err => {
-          console.log(err)
-          alert("エラーが発生しました")
-        })
-    } catch (e) {
-      console.log(e);
-    }
   }
 
 
@@ -42,7 +33,7 @@ function App() {
             </p>
             <div className="panel">
               <ul>
-                <li>Twilio Lottery Kicker</li>
+                <li>Lottery Kicker</li>
               </ul>
             </div>
           </nav>
@@ -79,7 +70,7 @@ function App() {
       </section>
 
       <footer id="footer">
-        Copyright(c) 2020 GeekFeed Inc. All Rights Reserved.
+        Copyright(c) 2021 GeekFeed Inc. All Rights Reserved.
       </footer>
     </React.Fragment>
   );
